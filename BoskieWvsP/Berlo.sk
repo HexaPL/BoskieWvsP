@@ -1,0 +1,117 @@
+#Magiczne Berło (Inferno) z Wojownicy vs Potwory III
+#by Hexa
+
+options:
+	#Ogólne
+	item: blaze rod	
+	name: &5&lMagiczne Berlo
+	cooldown: 25 seconds
+	cooldownmsg1: &eEnderowym szlamem	
+	cooldownmsg2: &eSmoczym podmuchem	
+	range: 15
+	dmgrange: 1.8
+	damage: 15
+	
+	#LPM
+	count: 5
+	particle: slime
+	effectrange: 0.45
+	lifetime: 5
+	
+	count4: 1
+	particle4: waterdrip
+	effectrange4: 0.2
+	lifetime4: 1
+	
+	#PPM
+	count2: 3
+	particle2: lava
+	effectrange2: 0.35
+	lifetime2: 4
+	
+	count3: 1
+	particle3: lavadrip
+	effectrange3: 0.2
+	lifetime3: 1
+	
+#Funkcje				
+function getSpellIncrease(player: location, block: location, range: integer) :: location:
+	set {_xb} to x-coordinate of {_block}
+	set {_yb} to y-coordinate of {_block}
+	set {_zb} to z-coordinate of {_block}
+	set {_xp} to x-coordinate of {_player}
+	set {_yp} to y-coordinate of {_player}
+	set {_zp} to z-coordinate of {_player}
+	if {_xb} is less than {_xp}:
+		set {_r} to {_range} - 2 * {_range}
+	else:
+		set {_r} to {_range}
+	set x-coordinate of {_block} to (difference between x-coordinate of {_block} and x-coordinate of {_player}) / {_r}
+	if {_yb} is less than {_yp}:
+		set {_r} to {_range} - 2 * {_range}
+	else:
+		set {_r} to {_range}
+	set y-coordinate of {_block} to (difference between y-coordinate of {_block} and y-coordinate of {_player}) / {_r}
+	if {_zb} is less than {_zp}:
+		set {_r} to {_range} - 2 * {_range}
+	else:
+		set {_r} to {_range}	
+	set z-coordinate of {_block} to (difference between z-coordinate of {_block} and z-coordinate of {_player}) / {_r}
+	return {_block}
+	
+function getSpellLoc(p: location, x: number, y: number, z: number) :: location:
+	increase x-coordinate of {_p} by {_x}
+	increase y-coordinate of {_p} by {_y}
+	increase z-coordinate of {_p} by {_z}
+	return {_p}
+
+#LPM	
+on leftclick with {@item}:
+	if name of player's tool is "{@name}":
+		set {czas1.inf.%player%} to difference between {uzycie1.inf.%player%} and now
+		if {czas1.inf.%player%} is less than {@cooldown}:
+			send "&eAby zaatakowac {@cooldownmsg1} &emusisz poczekac &c&l%difference between {@cooldown} and {czas1.inf.%player%}%"
+		else:
+			set {uzycie1.inf.%player%} to now
+			set {_p} to location 1 meter in front of player's head
+			set {_b} to location {@range} meters in front of player's head
+			set {_rng} to {@range}
+			set {_loc} to getSpellIncrease({_p}, {_b}, {_rng})
+			set {_p} to location 1 meter in front of player's head
+			set {_x} to x-coordinate of {_loc}
+			set {_y} to y-coordinate of {_loc}
+			set {_z} to z-coordinate of {_loc}
+			loop {_rng} times:
+				set {_p} to getSpellLoc({_p}, {_x}, {_y}, {_z})
+				drawDot count {@count}, particle {@particle}, XYZ {@effectrange}, {@effectrange}, {@effectrange}, center {_p}, visibleRange 320, pulseDelay 1, keepFor {@lifetime} ticks
+				drawDot count {@count4}, particle {@particle4}, XYZ {@effectrange4}, {@effectrange4}, {@effectrange4}, center {_p}, visibleRange 320, pulseDelay 1, keepFor {@lifetime4} ticks
+				show ender signal at {_p} to all players
+				loop all entities in radius {@dmgrange} of {_p}:
+					if name of loop-entity is not "%player%":
+						damage loop-entity by {@damage} hearts
+			play sound "block.anvil.land" with volume 100 and pitch 0.1 at player
+
+#PPM					
+on rightclick with {@item}:
+	if name of player's tool is "{@name}":
+		set {czas2.inf.%player%} to difference between {uzycie2.inf.%player%} and now
+		if {czas2.inf.%player%} is less than {@cooldown} seconds:
+			send "&eAby zaatakowac {@cooldownmsg2} &emusisz poczekac &c&l%difference between {@cooldown} and {czas2.inf.%player%}%"
+		else:	
+			set {uzycie2.inf.%player%} to now
+			set {_p} to location 1 meter in front of player's head
+			set {_b} to location {@range} meters in front of player's head
+			set {_rng} to {@range}
+			set {_loc} to getSpellIncrease({_p}, {_b}, {_rng})
+			set {_p} to location 1 meter in front of player's head
+			set {_x} to x-coordinate of {_loc}
+			set {_y} to y-coordinate of {_loc}
+			set {_z} to z-coordinate of {_loc}
+			loop {_rng} times:
+				set {_p} to getSpellLoc({_p}, {_x}, {_y}, {_z})
+				drawDot count {@count2}, particle {@particle2}, XYZ {@effectrange2}, {@effectrange2}, {@effectrange2}, center {_p}, visibleRange 320, pulseDelay 1, keepFor {@lifetime2} ticks
+				drawDot count {@count3}, particle {@particle3}, XYZ {@effectrange3}, {@effectrange3}, {@effectrange3}, center {_p}, visibleRange 320, pulseDelay 1, keepFor {@lifetime3} ticks
+				loop all entities in radius {@dmgrange} of {_p}:
+					if name of loop-entity is not "%player%":
+						damage loop-entity by {@damage} hearts
+			play sound "block.fire.ambient" with volume 100 and pitch 0.1 at player

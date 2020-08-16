@@ -1,0 +1,35 @@
+#Róg Wojenny (Boski Róg Mocy) z Wojownicy vs Potwory III
+#by Hexa
+
+#PPM
+on rightclick with carrot on a stick:
+	if name of player's tool is "&2&lRog Wojenny":
+		set {czas.rog.%player%} to difference between {uzycie.rog.%player%} and now
+		if {czas.rog.%player%} is less than 130 seconds:
+			send "&ePrzykro mi, ale mozesz uzyc rogu dopiero za &c&l%difference between 130 seconds and {czas.rog.%player%}%"
+		else:    
+			broadcast "&e[&6&l!&e] &b%player% &euzyl &bRogu Wojennego! &ekazdy w promieniu 50 kratek od niego otrzymal dodatkowe wzmocnienia!"
+			remove absorption from player
+			remove swiftness from player
+			remove strength from player
+			apply absorption 4 to the player for 120 seconds
+			apply swiftness 4 to the player for 20 seconds
+			apply strength 3 to the player for 20 seconds
+			set {uzycie.rog.%player%} to now
+			play sound "rog2" with volume 1 and pitch 1 to all players
+			loop all players in radius 50 of player:
+				#{wojownik::%loop-player%} is true
+				name of loop-player is not "%player%":
+					if loop-player has speed:
+						#Musi byc tak bo inaczej sie buguje
+					else:
+						apply swiftness 3 to loop-player for 60 seconds
+
+#LPM			
+on leftclick with carrot on a stick:
+	if name of player's tool is "&2&lRog Wojenny":
+		set {czas.rog.%player%} to difference between {uzycie.rog.%player%} and now
+		if {czas.rog.%player%} is less than 130 seconds:
+			send "&ePrzykro mi, ale mozesz uzyc rogu dopiero za &c&l%difference between 130 seconds and {czas.rog.%player%}%"
+		else:
+			send "&eMozesz juz uzyc rogu!"
