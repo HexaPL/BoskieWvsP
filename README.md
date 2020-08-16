@@ -13,3 +13,5 @@ Pluginy wymagane do poprawnego działania skryptów:
 - SkRayFall -> https://dev.bukkit.org/projects/skrayfall/files/latest
 - Skript-Mirror -> https://github.com/btk5h/skript-mirror/releases/download/v0.19.1/skript-mirror-0.19.1.jar
 - TuSKe -> https://forums.skunity.com/resources/tuske-custom-enchantments-gui-manager-and-more.16/download?version=742
+- WorldEdit -> https://dev.bukkit.org/projects/worldedit/files/latest
+- WorldGuard -> https://dev.bukkit.org/projects/worldguard/files/latest
