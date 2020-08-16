@@ -1,7 +1,8 @@
 # BoskieWvsP
 Boskie przedmioty z trybu Wojownicy vs Potwory III
-
 Rekomendowana wersja to 1.12.2
+
+Aby pobrać skrypty, kliknij zielony przycisk "Code" i wybierz "Download ZIP".
 
 Pluginy wymagane do poprawnego działania skryptów:
 - Skript (oczywiście) -> https://github.com/SkriptLang/Skript/releases/download/2.4.1/Skript.jar
