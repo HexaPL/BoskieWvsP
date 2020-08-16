@@ -39,9 +39,9 @@ on inventory click:
 				send "&bPrzywolales Pakiet Boskich!"
 				loop {wvsp.items::*}:
 					give loop-value to player
-					send "&6[Drop] &aPrzedmiot &b%loop-index% &azostal dodany do twojego ekwipunku!"
+					send "&6[WvsP] &aPrzedmiot &b%loop-index% &azostal dodany do twojego ekwipunku!"
 			else:
 				give {wvsp.items::%{_item}%} to player
 				send "&bPrzywolales Boski przedmiot!" to player
-				send "&6[Drop] &aPrzedmiot &b%{_item}% &azostal dodany do twojego ekwipunku!"
+				send "&6[WvsP] &aPrzedmiot &b%{_item}% &azostal dodany do twojego ekwipunku!"
 
