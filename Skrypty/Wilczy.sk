@@ -1,0 +1,49 @@
+#Wilczy Hełm z Wojownicy vs Potwory III
+#by Hexa
+
+on right click:
+	if tool of player is {wvsp.items::wilczy helm regeneracji}:
+		if helmet of player is air:
+			set helmet of player to {wvsp.items::wilczy helm regeneracji}
+			set tool of player to air
+			send "&6&l[Wilczy Helm] &bZalozyles &7&lWilczy Helm Regeneracji &botrzymales stala regeneracje!"
+			set {wilczy::%player%} to true
+			if {wilczy::%player%} is true:
+				while helmet of player is not air or diamond helmet or iron helmet or golden helmet:
+					remove regeneration from player
+					apply regeneration to player for 60 seconds
+					loop 60 times:
+						if helmet of player is air or diamond helmet or iron helmet or golden helmet:
+							remove regeneration from player
+							exit loop
+						wait 1 second
+				set {wilczy::%player%} to false
+
+#Ochrona przed upadkiem
+on join:
+	set {upadek::%player%} to true
+
+on damage:
+	damage is caused by fall
+	{wilczy::%victim%} is true
+	{upadek::%victim%} is true:
+		send "&6&l[!] &bHelm ochronil Cie przed obrazeniami od upadku!" to victim
+		cancel event
+
+#Custom Durability
+on damage of player:
+	attacker is set
+	{wilczy::%victim%} is true:
+		set {_lore} to uncolored 9th line of victim's helmet's lore
+		replace all "Wytrzymalosc Przedmiotu: " and "/300" with "" in {_lore}
+		set {_lore} to {_lore} parsed as integer
+		reduce {_lore} by 1
+		if {_lore} is 0:
+			set victim's helmet to air
+			send "&4&l[!] &cWilczy Helm pękł!" to victim
+			play "ENTITY_ITEM_BREAK" to victim at volume 1
+			stop
+		else:
+			if {_lore} is less than 5:
+				send "&4&l[!] &cWytrzymalosc Wilczego Helmu zbliza sie do zera!" to victim
+			set 9th line of victim's helmet's lore to "&5&lWytrzymalosc Przedmiotu: &2%{_lore}%/300"

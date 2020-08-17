@@ -1,0 +1,15 @@
+#Łuk Wiary (Elficki Łuk) z Wojownicy vs Potwory III
+#by Hexa
+
+on leftclick with bow:
+	if name of tool of player is "&5&lLuk Wiary":
+		set {czas.luk.%player%} to difference between {uzycie.luk.%player%} and now
+		if {czas.luk.%player%} is less than 10 seconds:
+			send "&cMusisz odczekac &7%difference between 10 seconds and {czas.luk.%player%}% &cprzed nastepnym uzyciem"
+		else:
+			set {uzycie.luk.%player%} to now
+			loop 3 times:
+				play "BLOCK_ANVIL_USE" to player at volume 1
+				wait 1 second
+			play sound "entity.experience_orb.pickup" with volume 100 and pitch 0.5 at player
+			give 3 of arrow to player

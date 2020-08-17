@@ -1,0 +1,10 @@
+#Smoczy Oddech (Miecz Pioruna) z Wojownicy vs Potwory III
+#by Hexa
+
+on damage:
+	attacker's tool is diamond sword
+	name of attacker's tool is "&4&lSmoczy Oddech"
+	chance of 10%:
+		strike lightning effect at victim
+		increase damage by 2
+		
