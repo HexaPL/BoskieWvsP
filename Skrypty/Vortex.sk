@@ -31,13 +31,13 @@ on rightclick with nether brick item:
 			send "&c&lVortex mozesz uzyc ponownie za: &3%difference between 10 seconds and {czas2.vortex.%player%}%"
 		else:
 			send "&3Uzyles Vortexa!"
+			set {uzycie2.vortex.%player%} to now
 			set {upadek::%player%} to false
 			push the player upwards at velocity 1.5
 			push the player horizontally forward at speed 4.5
 			loop 3 times:
 				play "ENTITY_GHAST_SHOOT" to player at volume 1
 				wait 0.25 seconds
-			set {uzycie2.vortex.%player%} to now
 			wait 2 seconds
 			set {upadek::%player%} to true
 
